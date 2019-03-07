@@ -1,9 +1,13 @@
 #source: 'http://www.gutenberg.org/cache/epub/2680/pg2680.txt'
 
-##store in a list of dictionaries or dict of dicts: 
-# {booknum: {
-#     meditationnum: "meditation text"
+##Original idea was to parse the meditation text and
+##store in a list of dictionaries or dict of dicts like this: 
+# {book_num: {
+#     meditation_num: "meditation text"
 # }}
+
+##I ended up not doing that, but may end up going back and doing it later
+##For now, this consistently prints a random meditation
 
 ##connect to meditations text in the data folder
 with open('data/meditations.txt') as file:
@@ -20,11 +24,9 @@ substr = 'BOOK'
 for linenum, line in enumerate(data):    # Keep track of line numbers
         #If substring search matches, then store index # and line (Book Title) in a dictionary
         if line.find(substr) != -1:
-                BOOK_list.append((linenum, line.rstrip('\n'))) #Could do tuples, list of tuples allows me to access indexes, unlike dict
-                # line_book_dict[linenum] = line.rstrip('\n')
-# print(BOOK_list)
-# print(BOOK_list[11][1]) #THE SECOND BOOK
-# print(BOOK_list)
+                BOOK_list.append((linenum, line.rstrip('\n'))) #Could do tuples, list of tuples allows me to access indexes
+                # line_book_dict[linenum] = line.rstrip('\n') #Alternative, could do with dict; I opted for tuple route
+
 index0 = 0 
 index1 = 1
 line_book_list = []
@@ -63,4 +65,26 @@ for book in body:
         book['book_body'] = ' '.join(book['book_body'])
         book['book_body'] = book['book_body'].split('  ')
 
-print(body[6]['book_body'][0])
+import random
+#the book count is fixed, so a simple random number works
+random_book_num = random.randint(0,12)
+
+# have to find book len
+#then put that books len in the randint range for the med
+
+meditations_in_book = (len(body[random_book_num]['book_body'])-1)
+print(random_book_num)
+print(meditations_in_book)
+
+#the meditation count is variable based on book
+# have to account for that
+random_meditation_num = random.randint(0,meditations_in_book)
+random_book = body[random_book_num]['book_title']
+random_meditation = body[random_book_num]['book_body'][random_meditation_num]
+
+##TEST: PASS
+##Tested by running several times
+##confirmed this prints meditations in the whole book range
+##confirmed this prints meditations in the range within a given book
+print(random_book, random_meditation)
+
