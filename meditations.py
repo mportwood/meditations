@@ -1,5 +1,10 @@
 #source: 'http://www.gutenberg.org/cache/epub/2680/pg2680.txt'
 
+##store in a list of dictionaries or dict of dicts: 
+# {booknum: {
+#     meditationnum: "meditation text"
+# }}
+
 ##connect to meditations text in the data folder
 with open('data/meditations.txt') as file:
    data = file.read().splitlines()
@@ -19,7 +24,7 @@ for linenum, line in enumerate(data):    # Keep track of line numbers
                 # line_book_dict[linenum] = line.rstrip('\n')
 # print(BOOK_list)
 # print(BOOK_list[11][1]) #THE SECOND BOOK
-
+# print(BOOK_list)
 index0 = 0 
 index1 = 1
 line_book_list = []
@@ -33,14 +38,29 @@ for item in BOOK_list:
                 index1+=1
         line_book_list.append(record)
 
-#Bug: need to fix last book, should be book_end = last line of data "data[-1]"
+##Fix the last book's ending to be the end of the file
+last_line=len(data)
+line_book_list[11]['book_end'] = last_line
 
-##parse books to get meditations
+#Creates a list of dictionaries,
+#Each dict has the book name and the body of meditations split by book
+body = []
+record_index = 0
+for record in line_book_list: 
+        meditations_body = {}
+        meditations_body['book_title'] = record['book_title']
+        meditations_body['index'] = record_index
+        meditations_body['book_body'] = data[int(record['book_start']+2):record['book_end']]
+        record_index+=1
+        body.append(meditations_body)
+# print(body[0]['book_body'])
 
-# for items in line_book_list: 
-        # print(items)
+##parse data to get meditations
+##What this sections does is, join all the text lines back into one string
+## Then parses the string  to find the breaks "double spaces"
+## Then turn those into dicts for each meditation
+for book in body:   
+        book['book_body'] = ' '.join(book['book_body'])
+        book['book_body'] = book['book_body'].split('  ')
 
-##store in a list of dictionaries or dict of dicts: 
-# {booknum: {
-#     meditationnum: "meditation text"
-# }}
+print(body[6]['book_body'][0])
