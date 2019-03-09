@@ -82,6 +82,7 @@ random_meditation_num = random.randint(0,meditations_in_book)
 random_book = body[random_book_num]['book_title']
 random_meditation = body[random_book_num]['book_body'][random_meditation_num]
 
+random_meditation = '>' + random_meditation #This '>' just makes it display as a quote in slack
 ##TEST: PASS
 ##Tested by running several times
 ##confirmed this prints meditations in the whole book range
@@ -102,6 +103,7 @@ from api_key import api_key #import api_key as a variable from the api_key file
 slack_token = api_key
 sc = SlackClient(slack_token)
 
+quote_indicator = '>'
 sc.api_call(
   "chat.postMessage",
   channel="meditation",
