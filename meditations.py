@@ -88,6 +88,13 @@ random_meditation = body[random_book_num]['book_body'][random_meditation_num]
 ##confirmed this prints meditations in the range within a given book
 # print(random_book, random_meditation)
 
+
+##This is the code for sending the message via slack
+
+##First have to install slackclient. More on that here: https://pypi.org/project/slackclient/
+#run this in CLI: 
+#pip install slackclient
+
 import os
 from slackclient import SlackClient
 
