@@ -67,14 +67,14 @@ for book in body:
 
 import random
 #the book count is fixed, so a simple random number works
-random_book_num = random.randint(0,12)
+random_book_num = random.randint(0,11)
 
 # have to find book len
 #then put that books len in the randint range for the med
 
-meditations_in_book = (len(body[random_book_num]['book_body'])-1)
-print(random_book_num)
-print(meditations_in_book)
+meditations_in_book = (len(body[random_book_num]['book_body']))
+# print(random_book_num)
+# print(meditations_in_book)
 
 #the meditation count is variable based on book
 # have to account for that
@@ -86,5 +86,17 @@ random_meditation = body[random_book_num]['book_body'][random_meditation_num]
 ##Tested by running several times
 ##confirmed this prints meditations in the whole book range
 ##confirmed this prints meditations in the range within a given book
-print(random_book, random_meditation)
+# print(random_book, random_meditation)
 
+import os
+from slackclient import SlackClient
+
+from api_key import api_key #import api_key as a variable from the api_key file
+slack_token = api_key
+sc = SlackClient(slack_token)
+
+sc.api_call(
+  "chat.postMessage",
+  channel="meditation",
+  text="%s\n%s" %(random_book, random_meditation)
+)
